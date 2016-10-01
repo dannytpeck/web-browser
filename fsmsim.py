@@ -6,13 +6,12 @@ edges = {(1, 'a') : 2,
          (3, '1') : 3}
 
 accepting = [3]
-# corresponds to r"a+1+"
+
 def fsmsim(string, current, edges, accepting):
     if string == "":
         return current in accepting
     else:
         letter = string[0]
-        # is there an outgoing edge?
         if (current, letter) in edges:
             destination = edges[current, letter]
             remaining_string = string[1:]
