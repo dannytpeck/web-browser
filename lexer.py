@@ -41,6 +41,11 @@ def t_WORD(token):
     r'[^ <>\n]+'
     return token
 
+def t_NUMBER(token):
+    r"[0-9]+"
+    token.value = int(token.value)
+    return token
+
 webpage = """This is
 <b>webpage!"""
 
