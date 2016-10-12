@@ -1,3 +1,3 @@
 def t_LANGLESLASH(token):
-    r"</"
+    r'</'
     return token
