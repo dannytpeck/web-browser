@@ -1,4 +1,5 @@
 import ply.lex as lex
+
 tokens = (
     'LANGLE',      # <
     'LANGLESLASH', # </
@@ -9,6 +10,11 @@ tokens = (
 )
 
 t_ignore = ' ' # shortcut for whitespace
+
+def t_NEWLINE(token):
+    r'\n'
+    token.lexer.lineno += 1
+    pass
 
 def t_LANGLESLASH(token):
     r'</'
@@ -32,13 +38,14 @@ def t_STRING(token):
     return token
 
 def t_WORD(token):
-    r'[^ <>]+'
+    r'[^ <>\n]+'
     return token
 
-webpage = "This is <b>my</b> webpage!"
+webpage = """This is
+<b>webpage!"""
+
 htmllexer = lex.lex()
 htmllexer.input(webpage)
-
 while True:
     tok = htmllexer.token()
     if not tok: break
