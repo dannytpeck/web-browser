@@ -9,7 +9,23 @@ tokens = (
     'WORD',        # Welcome!
 )
 
+states = (
+    ('htmlcomment','exclusive'),
+)
+
 t_ignore = ' ' # shortcut for whitespace
+
+def t_htmlcomment(token):
+    r'<!--'
+    token.lexer.begin('htmlcomment')
+
+def t_htmlcomment_end(token):
+    r'-->'
+    token.lexer.lineno += token.value.count('\n')
+    token.lexer.begin('INITIAL')
+
+def t_htmlcomment_error(token):
+    token.lexer.skip(1)
 
 def t_NEWLINE(token):
     r'\n'
@@ -46,8 +62,7 @@ def t_NUMBER(token):
     token.value = int(token.value)
     return token
 
-webpage = """This is
-<b>webpage!"""
+webpage = "hello <!-- comment --> all"
 
 htmllexer = lex.lex()
 htmllexer.input(webpage)
